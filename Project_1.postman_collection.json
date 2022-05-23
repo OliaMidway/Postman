@@ -1,0 +1,342 @@
+{
+	"info": {
+		"_postman_id": "8870f84b-d0c4-43e7-b39a-bab02da0f999",
+		"name": "Project_1",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20450380"
+	},
+	"item": [
+		{
+			"name": "object_info_4_Project",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// * Преобразовать пункты 12-13-14 (salary из реквеста и респонса равны) таким образом, чтобы проверка производилась циклом, в котором будет всего ОДИН тест. Имя теста должно меняться в зависимости от значения в Salary\r",
+							"\r",
+							"let req_salary = pm.request.url.query.get('salary')\r",
+							"\r",
+							"let resp_salary = pm.response.json().salary\r",
+							"\r",
+							"for(let i = 0; i <= resp_salary.length-1; i++){\r",
+							"    pm.test(`req_salary*${i+1} ${req_salary} == resp_salary ${resp_salary[i]}`, function() {\r",
+							"        pm.expect(+req_salary*(i+1)).to.eql(+resp_salary[i])\r",
+							"        console.log(+req_salary*(i+1))\r",
+							"    })\r",
+							"}\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://162.55.220.72:5005/object_info_4?name=Aaron&age=41&salary=6000",
+					"protocol": "http",
+					"host": [
+						"162",
+						"55",
+						"220",
+						"72"
+					],
+					"port": "5005",
+					"path": [
+						"object_info_4"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "Aaron"
+						},
+						{
+							"key": "age",
+							"value": "41"
+						},
+						{
+							"key": "salary",
+							"value": "6000"
+						},
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "object_info_3_Project",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Преобразовать задания 5-7 (сравнить идентичные поля в реквесте и респонсе) таким образом, чтобы это делалось ЗА ОДИН ТЕСТ (сразу все 3 поля) БЕЗ ЦИКЛОВ! (глубокое сравнение объектов)\r",
+							"\r",
+							"let req_salary = +pm.request.url.query.get('salary')\r",
+							"let req_age = +pm.request.url.query.get('age')\r",
+							"let req_name = pm.request.url.query.get('name')\r",
+							"\r",
+							"const req_obj = {\r",
+							"    name : req_name,\r",
+							"    age : req_age,\r",
+							"    salary : req_salary\r",
+							"}\r",
+							"\r",
+							"console.log(req_obj)\r",
+							"\r",
+							"let resp_salary = +pm.response.json().salary\r",
+							"let resp_age = +pm.response.json().age\r",
+							"let resp_name = pm.response.json().name\r",
+							"\r",
+							"const resp_obj = {\r",
+							"    name : resp_name,\r",
+							"    age : resp_age,\r",
+							"    salary : resp_salary\r",
+							"}\r",
+							"\r",
+							"pm.test('resp_obj == req_obj', function(){\r",
+							"    pm.expect(req_obj).to.deep.equal(resp_obj)\r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://162.55.220.72:5005/object_info_3?name=Mark&age=3&salary=9000",
+					"protocol": "http",
+					"host": [
+						"162",
+						"55",
+						"220",
+						"72"
+					],
+					"port": "5005",
+					"path": [
+						"object_info_3"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "Mark"
+						},
+						{
+							"key": "age",
+							"value": "3"
+						},
+						{
+							"key": "salary",
+							"value": "9000"
+						},
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user_info_2_Project",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// 1)  Преобразовать задания 8 - 13 (проверить что в json имеется нужный параметр) таким образом, чтобы все проверки делались в цикле (1 проверка в цикле, в которую попадают нужные параметры). Название теста должно видоизменяться исходя из подаваемых данных. ( ${}  или другим способом)\r",
+							"\r",
+							"let req = request.data\r",
+							"\r",
+							"let arr = []\r",
+							"const resp = pm.response.json()\r",
+							"\r",
+							"for(const key in resp){\r",
+							"    arr.push(key)\r",
+							"}\r",
+							"\r",
+							"arr.forEach((e) => {\r",
+							"    pm.test(`response has a ${e}`, function(){\r",
+							"        pm.expect(resp).to.have.property(e)\r",
+							"    })\r",
+							"})\r",
+							"\r",
+							"// 2) ** Преобразовать задания 14 - 18 (проверить что параметр равен salary умножить на коэффициент) таким образом, чтобы все проверки делались в цикле (1 проверка в цикле, в которую попадают нужные параметры). Название теста должно видоизменяться исходя из подаваемых данных. ( ${}  или другим способом)\r",
+							"\r",
+							"const count = [\r",
+							"    '',\r",
+							"    3.3,\r",
+							"    2.7,\r",
+							"    3.8,\r",
+							"    2,\r",
+							"    1\r",
+							"]\r",
+							"\r",
+							"arr.forEach((e, i) => {\r",
+							"    if(e != 'person')\r",
+							"    pm.test(`response has a ${e}`, function(){\r",
+							"        pm.expect(+resp[e]).to.equal(req.salary*count[i])\r",
+							"    })\r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "Paul",
+							"type": "text"
+						},
+						{
+							"key": "age",
+							"value": "18",
+							"type": "text"
+						},
+						{
+							"key": "salary",
+							"value": "1600",
+							"type": "text"
+						},
+						{
+							"key": "",
+							"value": "",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "",
+							"value": "",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "http://162.55.220.72:5005/user_info_2",
+					"protocol": "http",
+					"host": [
+						"162",
+						"55",
+						"220",
+						"72"
+					],
+					"port": "5005",
+					"path": [
+						"user_info_2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user_info_2_Project_3",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// 3) *** Преобразовать описанные выше задания 1 и 2 для данного эндпоинта в ОДИН ЦИКЛ, в котором будут проходить ОБА теста.\r",
+							"\r",
+							"let req = request.data\r",
+							"\r",
+							"let arr = []\r",
+							"const resp = pm.response.json()\r",
+							"\r",
+							"const counters = {\r",
+							"    'person' : '',\r",
+							"    'start_qa_salary' : 1,\r",
+							"    'qa_salary_after_6_months' : 2,\r",
+							"    'qa_salary_after_12_months' : 2.7,\r",
+							"    'qa_salary_after_1.5_year' : 3.3,\r",
+							"    'qa_salary_after_3.5_years' : 3.8\r",
+							"}\r",
+							"\r",
+							"for(const key in counters){\r",
+							"    pm.test(`response has ${key}`, () => {\r",
+							"        pm.expect(resp).to.have.property(key)\r",
+							"    })\r",
+							"    if(key != 'person'){\r",
+							"        pm.test(`${key} = ${req.salary} * ${counters[key]}`, () => {\r",
+							"            pm.expect(resp[key]).to.eql(counters[key]*req.salary)\r",
+							"        })\r",
+							"    }\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "Paul",
+							"type": "text"
+						},
+						{
+							"key": "age",
+							"value": "18",
+							"type": "text"
+						},
+						{
+							"key": "salary",
+							"value": "1600",
+							"type": "text"
+						},
+						{
+							"key": "",
+							"value": "",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "",
+							"value": "",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "http://162.55.220.72:5005/user_info_2",
+					"protocol": "http",
+					"host": [
+						"162",
+						"55",
+						"220",
+						"72"
+					],
+					"port": "5005",
+					"path": [
+						"user_info_2"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
