@@ -1,2 +1,3 @@
 # Postman
-Postman Collections & Challenges
+
+This repository contains samples of Postman Collections & Challenges
