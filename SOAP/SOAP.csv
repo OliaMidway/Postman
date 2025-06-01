@@ -1,0 +1,5 @@
+METHOD,intA,intB,action
+POST,1,1,Add
+POST,2,2,Divide
+POST,3,3,Multiply
+POST,4,4,Subtract
